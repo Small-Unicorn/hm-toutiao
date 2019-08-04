@@ -10,6 +10,12 @@ import 'element-ui/lib/theme-chalk/index.css'
 // index是目录的索引文件 默认使用的索引文件 index.js index.vue index.json
 import router from '@/router'
 
+// 导入样式
+import '@/styles/index.less'
+
+// 全局挂载
+import axios from 'axios'
+Vue.prototype.$http = axios
 // 产品级别提示 不开启 开发阶段
 Vue.config.productionTip = false
 Vue.use(ElementUI)
@@ -17,5 +23,6 @@ Vue.use(ElementUI)
 // h 渲染app根组件
 new Vue({
   router,
+  // render的优先级最高  相比 el  template
   render: h => h(App)
-}).$mount('#app')
+}).$mount('#app') // 把render的内容挂载哪个容器内
