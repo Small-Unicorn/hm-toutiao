@@ -4,7 +4,7 @@
          <!-- logo -->
          <img src="../../assets/images/logo_index.png" alt="">
          <!-- 表单 -->
-         <el-form  ref="loginForm" :model="loginForm" :rules="loginRules">
+         <el-form  ref="loginForm" :model="loginForm" :rules="loginRules" status-icon>
             <el-form-item prop="mobile">
                 <el-input v-model="loginForm.mobile" placeholder="请输入手机号"></el-input>
             </el-form-item>
@@ -25,19 +25,23 @@
 </template>
 
 <script>
+import store from '@/store'
 export default {
   data () {
     // 自定义校验函数
     const checkMobile = (rule, value, callback) => {
-      if (!/^1[3-9]\d{9}$/.test(value)) return callback(new Error('手机格式不对'))
+      // 按照自己校验逻辑去校验值value即可
+      // 手机号格式  1开头 第2位 3-9  最后 9位数字即可
+      if (!/^1[3-9]\d{9}$/.test(value)) { return callback(new Error('手机格式不对')) }
       callback()
     }
+
     return {
-      // 表单数据对象
+      // 表单的数据对象
       loginForm: {
         // 字段参考接口文档
-        mobile: '',
-        code: ''
+        mobile: '13911111111',
+        code: '246810'
       },
       // 校验规则对象
       loginRules: {
@@ -54,24 +58,38 @@ export default {
   },
   methods: {
     login () {
-      // 对整个表单校验
-      // 获取dom对象
-      // 回调函数 各字段的是否校验成功
-      this.$refs.loginForm.validate((valid) => {
+      // 1. 对整个表单进行校验
+      this.$refs.loginForm.validate(async valid => {
         if (valid) {
-          this.$http.post(' http://ttapi.research.itcast.cn/mp/v1_0/authorizations',
-            this.loginForm).then(res => {
-            // res响应对象 res.data数据属于响应主体
-            // console.log(res.data)
+          // 2. 校验成功发起登录请求
+          // this.$http
+          //   .post(
+          //     'http://ttapi.research.itcast.cn/mp/v1_0/authorizations',
+          //     this.loginForm
+          //   )
+          //   .then(res => {
+          //     // res 是响应对象 res.data数据属于响应主体
+          //     // console.log(res.data)
+          //     // 存储用户信息
+          //     store.setUser(res.data.data)
+          //     this.$router.push('/')
+          //   })
+          //   .catch(() => {
+          //     // 请求失败 提示  手机号或验证码错误
+          //     this.$message.error('手机号或验证码错误')
+          //   })
+          // async&await方法表单校验 await必须在async内
+          // 捕获代码异常 try{可能会执行报错代码}catch(e){处理错误}
+          try {
+            const { data: { data } } = await this.$http.post('authorizations', this.loginForm)
+            store.setUser(data)
             this.$router.push('/')
-          })
-            .catch(() => {
-              // 请求失败提示 手机号或验证码错误
-              this.$message.error('手机号或验证码错误')
-            })
+          // 异常处理 捕获到catch里
+          } catch (e) {
+            this.$message.error('手机号或验证码错误')
+          }
         }
       })
-      // 校验成功发送登陆请求
     }
   }
 }

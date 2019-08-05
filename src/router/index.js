@@ -8,7 +8,7 @@ import Home from '@/views/home'
 import Welcome from '@/views/welcome'
 import Article from '@/views/article'
 import NotFound from '@/views/404'
-
+import store from '@/store'
 Vue.use(VueRouter)
 
 const router = new VueRouter({
@@ -34,6 +34,18 @@ const router = new VueRouter({
     // 路径404前边都不匹配 执行404
     { path: '*', name: '404', component: NotFound }
   ]
+})
+// 全局前置导航守卫
+// 全局钩子函数 跳转之前
+router.beforeEach((to, from, next) => {
+  // // 若是登录路由 放行
+  // if (to.path === 'login') return next()
+  // // 放行获取用户信息 如果没有 拦截登陆
+  // if (store.getUser().token) return next('/login')
+  // // 放行
+  // next()
+  if (to.path !== '/login' && !store.getUser().token) return next('/login')
+  next()
 })
 // 导出
 export default router

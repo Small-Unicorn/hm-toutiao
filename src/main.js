@@ -14,7 +14,7 @@ import router from '@/router'
 import '@/styles/index.less'
 
 // 全局挂载
-import axios from 'axios'
+import axios from '@/api'
 Vue.prototype.$http = axios
 // 产品级别提示 不开启 开发阶段
 Vue.config.productionTip = false
