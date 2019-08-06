@@ -10,5 +10,9 @@ export default {
   // 获取用户信息
   getUser () {
     return JSON.parse(window.sessionStorage.getItem(KEY) || '{}')
+  },
+  clearUser () {
+    // clear()清除所有本地 不建议
+    window.sessionStorage.removeItem(KEY)
   }
 }

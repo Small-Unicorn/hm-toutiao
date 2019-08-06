@@ -50,14 +50,15 @@
             <span class="el-icon-s-fold" @click="toggleMenu()"></span>
             <span class="text">江苏传智播客科技教育有限公司</span>
             <!-- 下拉菜单 -->
-            <el-dropdown class="my-dropdown">
+            <el-dropdown class="my-dropdown" @command="clickMenu">
                <span class="el-dropdown-link">
-                  <img src="../../assets/images/avatar.jpg" alt="">
-                  下拉菜单<i class="el-icon-arrow-down el-icon--right"></i>
+                  <img src="photo" alt="">
+                  {{name}}
+                  <i class="el-icon-arrow-down el-icon--right"></i>
                </span>
                <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item icon="el-icon-setting">个人设置</el-dropdown-item>
-                  <el-dropdown-item icon="el-icon-unlock">退出登录</el-dropdown-item>
+                  <el-dropdown-item icon="el-icon-setting" command="setting">个人设置</el-dropdown-item>
+                  <el-dropdown-item icon="el-icon-unlock" command="logout">退出登录</el-dropdown-item>
                </el-dropdown-menu>
             </el-dropdown>
          </el-header>
@@ -71,17 +72,44 @@
 </template>
 
 <script>
+import store from '@/store'
 export default {
   data () {
     return {
       // 默认展开
-      isCollapse: false
+      isCollapse: false,
+      // 定义用户值
+      name: '',
+      photo: ''
     }
+  },
+  // 钩子函数
+  created () {
+    // 赋用户值
+    const user = store.getUser()
+    this.name = user.name
+    this.photo = user.photo
   },
   methods: {
     toggleMenu () {
       // 切换侧边栏的收起与展开 默认展开
       this.isCollapse = !this.isCollapse
+    },
+    setting () {
+      this.$router.push('/setting')
+    },
+    // click绑定原生dom 绑定在组件自定义事件
+    // 用修饰符 prevent native 绑定原生事件
+    logout () {
+      // 清除用户信息 跳转登录
+      store.clearUser()
+      this.$router.push({ name: 'login' })
+    },
+    // 事件有默认传参 想接收参数 不加括号
+    clickMenu (menuType) {
+      // menuType===setting this.setting()
+      // menuTYpe===logout this.logout()
+      this[menuType]()
     }
   }
 }
