@@ -13,8 +13,11 @@ import router from '@/router'
 // 导入样式
 import '@/styles/index.less'
 
+import myPlugin from '@/components'
 // 全局挂载
 import axios from '@/api'
+Vue.use(myPlugin)
+
 Vue.prototype.$http = axios
 // 产品级别提示 不开启 开发阶段
 Vue.config.productionTip = false
