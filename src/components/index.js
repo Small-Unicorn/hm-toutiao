@@ -4,11 +4,13 @@
 // 函数形参 对应vue对象
 import MyBread from '@/components/my-bread'
 import MyTest from '@/components/my-test'
+import MyChannel from '@/components/my-channel'
 export default {
   install (Vue) {
     // Vue.use (使用插件) Vue就是use前的Vue
-    // Vue 全局注册组件即可
+    // Vue 全局注册组件
     Vue.component(MyBread.name, MyBread)
     Vue.component(MyTest.name, MyTest)
+    Vue.component(MyChannel.name, MyChannel)
   }
 }
