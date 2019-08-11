@@ -9,6 +9,9 @@ import Welcome from '@/views/welcome'
 import Article from '@/views/article'
 import NotFound from '@/views/404'
 import store from '@/store'
+import Image from '@/views/image'
+import Publish from '@/views/publish'
+
 Vue.use(VueRouter)
 
 const router = new VueRouter({
@@ -25,11 +28,14 @@ const router = new VueRouter({
     //         { path: '/welcome', name: 'welcome', component: Welcome }
     //     ]
     // }
+    // 二级路由
     { path: '/',
       component: Home,
       children: [
         { path: '/', name: 'welcome', component: Welcome },
-        { path: '/article', name: 'article', component: Article }
+        { path: '/article', name: 'article', component: Article },
+        { path: '/image', name: 'image', component: Image },
+        { path: '/publish', name: 'publish', component: Publish }
       ] },
     // 路径404前边都不匹配 执行404
     { path: '*', name: '404', component: NotFound }
