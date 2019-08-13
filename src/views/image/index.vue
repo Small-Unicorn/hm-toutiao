@@ -32,7 +32,7 @@
               layout="prev, pager, next,total"
               :total="total" :page-size="reqParams.per_page"
               :current-page="reqParams.page"
-              @current-change="changePage">
+              @current-change="changePager">
             </el-pagination>
           </div>
         </el-card>
@@ -126,7 +126,7 @@ export default {
       this.dialogVisible = true
     },
     // 分页函数
-    changePage (newPage) {
+    changePager (newPage) {
       this.reqParams.page = newPage
       this.getImages()
     },

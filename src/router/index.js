@@ -11,7 +11,8 @@ import NotFound from '@/views/404'
 import store from '@/store'
 import Image from '@/views/image'
 import Publish from '@/views/publish'
-
+import Comment from '@/views/comment'
+import Setting from '@/views/setting'
 Vue.use(VueRouter)
 
 const router = new VueRouter({
@@ -35,7 +36,10 @@ const router = new VueRouter({
         { path: '/', name: 'welcome', component: Welcome },
         { path: '/article', name: 'article', component: Article },
         { path: '/image', name: 'image', component: Image },
-        { path: '/publish', name: 'publish', component: Publish }
+        { path: '/publish', name: 'publish', component: Publish },
+        { path: '/comment', name: 'comment', component: Comment },
+        { path: '/setting', name: 'setting', component: Setting }
+
       ] },
     // 路径404前边都不匹配 执行404
     { path: '*', name: '404', component: NotFound }
