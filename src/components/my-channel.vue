@@ -13,6 +13,7 @@
 <script>
 export default {
   name: 'my-channel',
+  // 父子组件传值
   props: ['value'],
   data () {
     return {

@@ -2,7 +2,7 @@
     <div class="comment-container">
        <el-card>
            <div slot="header">
-              <my-bread>评论管理</my-bread>
+              <myBread>评论管理</myBread>
            </div>
            <el-table :data="comments">
               <el-table-column label="标题" prop="title"></el-table-column>
@@ -24,7 +24,7 @@
            <el-pagination style="margin-top:20px"
               v-if="total > reqParams.per_page"
               background
-              layout="prev, pager, next,total"
+              layout="prev, pager, next"
               :total="total" :page-size="reqParams.per_page"
               :current-page="reqParams.page"
               @current-change="changePager">
@@ -34,6 +34,7 @@
     </div>
 </template>>
 <script>
+
 export default {
   data () {
     return {
@@ -54,7 +55,7 @@ export default {
     // 修改状态
     async toggleStatus (row) {
       const { data: { data } } = await this.$http.put(`comments/status?article_id=${row.id}`, {
-        allow_comment: row.comment_status
+        allow_comment: !row.comment_status
       })
       // 提示
       this.$message.success(data.allow_comment ? '打开评论成功' : '关闭评论成功')
@@ -70,8 +71,9 @@ export default {
     // 请求
     async getComments () {
       const { data: { data } } = await this.$http.get('articles', { params: this.reqParams })
+
       this.comments = data.results
-      this.total = data.tptal_count
+      this.total = data.total_count
     }
   }
 }
